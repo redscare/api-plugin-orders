@@ -80,6 +80,16 @@ async function createPayments({
       } // optional, object, blackbox
     });
 
+    const intent = payment.data.intent;
+    if (intent.status === 'requires_action' &&
+    intent.next_action.type === 'use_stripe_sdk') {
+          return {
+            intent_id: intent.id,
+            requires_action: true,
+            payment_intent_client_secret: intent.client_secret
+          }
+      }
+
     const paymentWithCurrency = {
       ...payment,
       // This is from previous support for exchange rates, which was removed in v3.0.0
@@ -203,6 +213,16 @@ export default async function placeOrder(context, input) {
     shippingAddress: shippingAddressForPayments,
     shop
   });
+
+  if (payments && payments.length && payments[0].requires_action) {
+    return {
+      requiresAction: {
+        intentId: payments[0].intent_id,
+        requiresAction: payments[0].requires_action,
+        paymentIntentClientSecret: payments[0].payment_intent_client_secret,
+      }
+    };
+  }
 
   // Create anonymousAccessToken if no account ID
   const fullToken = accountId ? null : getAnonymousAccessToken();

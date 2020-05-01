@@ -942,13 +942,20 @@ type MoveOrderItemsPayload {
   order: Order!
 }
 
+type RequiresAction {
+  intentId: String
+  requiresAction: String
+  paymentIntentClientSecret: String
+}
+
 "Response payload for the placeOrder mutation"
 type PlaceOrderPayload {
   "The same string you sent with the mutation params, for matching mutation calls with their responses"
   clientMutationId: String
 
   "Orders that were created"
-  orders: [Order]!
+  orders: [Order]
+  requiresAction: RequiresAction
 
   "If you are not logged in, this will be a token that can be used for future requests"
   token: String
