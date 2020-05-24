@@ -651,6 +651,44 @@ const OrderItemAttribute = new SimpleSchema({
 });
 
 /**
+ * @name ImageSizes
+ * @memberof Schemas
+ * @type {SimpleSchema}
+ * @property {String} large optional
+ * @property {String} medium optional
+ * @property {String} original optional
+ * @property {String} small optional
+ * @property {String} thumbnail optional
+ */
+export const ImageSizes = new SimpleSchema({
+  large: {
+    type: String,
+    label: "Large",
+    optional: true
+  },
+  medium: {
+    type: String,
+    label: "Medium",
+    optional: true
+  },
+  original: {
+    type: String,
+    label: "Original",
+    optional: true
+  },
+  small: {
+    type: String,
+    label: "Small",
+    optional: true
+  },
+  thumbnail: {
+    type: String,
+    label: "Thumbnail",
+    optional: true
+  }
+});
+
+/**
  * @name OrderItem
  * @memberof Schemas
  * @summary Defines one item in an order
@@ -705,6 +743,9 @@ export const OrderItem = new SimpleSchema({
   },
   "history.$": {
     type: History
+  },
+  "imageURLs": {
+    type: ImageSizes
   },
   "optionTitle": {
     type: String,

@@ -24,7 +24,6 @@ export default async function buildOrderItem(context, { currencyCode, inputItem 
     parentVariant,
     variant: chosenVariant
   } = await queries.findProductAndVariant(context, productId, productVariantId);
-
   const variantPriceInfo = await queries.getVariantPrice(context, chosenVariant, currencyCode);
   const finalPrice = (variantPriceInfo || {}).price;
 
@@ -75,6 +74,7 @@ export default async function buildOrderItem(context, { currencyCode, inputItem 
       amount: finalPrice,
       currencyCode
     },
+    imageURLs: chosenProduct.primaryImage.URLs,
     productId: chosenProduct.productId,
     productSlug: chosenProduct.slug,
     productType: chosenProduct.type,

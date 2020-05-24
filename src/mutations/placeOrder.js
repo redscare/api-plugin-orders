@@ -50,6 +50,7 @@ async function createPayments({
 
   // Create authorized payments for each
   const paymentPromises = (paymentsInput || []).map(async (paymentInput) => {
+    console.log("paymentsInput", paymentsInput)
     const { amount, method: methodName } = paymentInput;
 
     // Verify that this payment method is enabled for the shop
@@ -67,6 +68,7 @@ async function createPayments({
     }
 
     // Authorize this payment
+    console.log("TRYING TO CREATE AUTH PAYMENT");
     const payment = await paymentMethodConfig.functions.createAuthorizedPayment(context, {
       accountId, // optional
       amount,
@@ -79,7 +81,7 @@ async function createPayments({
         ...(paymentInput.data || {})
       } // optional, object, blackbox
     });
-
+    console.log("payment", payment);
     const intent = payment.data.intent;
     if (intent.status === 'requires_action' &&
     intent.next_action.type === 'use_stripe_sdk') {
