@@ -89,7 +89,7 @@ export default async function updateGroupTotals(context, {
     // Compare expected and actual totals to make sure client sees correct calculated price
     // Error if we calculate total price differently from what the client has shown as the preview.
     // It's important to keep this after adding and verifying the shipmentMethod and order item prices.
-    compareExpectedAndActualTotals(group.invoice.total, expectedTotal);
+    compareExpectedAndActualTotals(group.invoice.total, expectedGroupTotal);
   }
 
   return {
